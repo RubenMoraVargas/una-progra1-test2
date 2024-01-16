@@ -31,10 +31,10 @@ static string getLastDigits(string str, int digits) {
     }  
         return str.substr(str.length() - digits); 
 }
-static bool** initMatrix() {
+static bool** initMatrix() { 
     bool** matrix = new bool* [rows];
     for (int i = 0; i < rows; ++i) {
-        //matrix[i] = new bool[columns]();
+        //matrix[i] = new bool[columns](); 
         matrix[i] = new bool[columns];
         for (int j = 0; j < columns; ++j) {
            matrix[i][j] = false;
@@ -52,6 +52,12 @@ static void printLEDMatrix(bool** ledMatrix) {
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < columns; ++j) {
             char ledValue = ledMatrix[i][j] ? '⬛' : ' ';
+            /*if (ledMatrix[i][j]) {
+                char ledValue =  '⬛';
+            }
+            else {
+                char ledValue = ' ';
+            }*/
             std::cout << ledValue; 
         }
         std::cout << std::endl;  
@@ -103,18 +109,14 @@ static void setThreeAsLed(bool** ledMatrix, int position) {
 }
 
 static void setFourAsLed(bool** ledMatrix, int position) {
-    for (int row = 0; row < 2; ++row) {
-        ledMatrix[row][position] = true;        
-        ledMatrix[row][position + 2] = true;    
+    for (int row = 0; row < 3; ++row) {
+        ledMatrix[row][position] = true;         
     }
-     
-    for (int col = position; col < position + 3; ++col) {
-        ledMatrix[2][col] = true;
+    for (int row = 0; row < 5; ++row) {
+        ledMatrix[row][position+2] = true;
     }
-     
-    for (int row = 3; row < 5; ++row) {
-        ledMatrix[row][position + 2] = true;
-    }
+   
+     ledMatrix[2][position + 1] = true; 
 }
 
 static void setFiveAsLed(bool** ledMatrix, int position) {
@@ -208,7 +210,7 @@ static void setDigitAsLed(bool** ledMatrix, char digit, int position) {
 static void loadFormattedDataIntoLEDMatrix(bool** ledMatrix, const std::string& formattedData) {
     const int space = 1;
     const int widthPerDigit = 3+ space; 
-    for (int i = 0; i < formattedData.size(); ++i) {
+    for (int i = 0; i < formattedData.size(); i++) {
         char digit = formattedData[i];
         int position = i * widthPerDigit;
         setDigitAsLed(ledMatrix, digit, position);
@@ -228,7 +230,7 @@ int main() {
     }
     string formattedData = getLastDigits("     " + numberAsString,6);
 
-    loadFormattedDataIntoLEDMatrix(ledMatrix, formattedData);
+    loadFormattedDataIntoLEDMatrix( ledMatrix, formattedData);
     printLEDMatrix(ledMatrix);
      
     deleteMatrix(ledMatrix);
